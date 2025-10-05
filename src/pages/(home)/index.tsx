@@ -19,11 +19,12 @@ export default function Home() {
             className="bg-[#1a4cb0] text-fd-primary-foreground font-semibold px-4 py-2 rounded-full hover:scale-150 hover:drop-shadow-[0_0_25px] hover:drop-shadow-[#1a4cb0] hover:-rotate-3 transition ease-[cubic-bezier(0.34,1.56,0.64,1)]">
             Get Started
           </Link>
-          <Link
-            to="https://create.roblox.com/store/asset/102585843889477/Katalyst"
+          <a
+            href="https://create.roblox.com/store/asset/102585843889477/Katalyst"
+            target="_blank"
             className="border-[#1a4cb0] border text-[#1a4cb0] font-semibold px-4 py-2 rounded-full hover:scale-150 hover:drop-shadow-[0_0_25px] hover:drop-shadow-[#1a4cb0] hover:rotate-3 hover:bg-[#1a4cb0] hover:border-fd-pr hover:text-fd-primary-foreground transition ease-[cubic-bezier(0.34,1.56,0.64,1)]">
             Roblox Assets Store
-          </Link>
+          </a>
         </div>
       </div>
     </div>
