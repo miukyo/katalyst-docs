@@ -1,0 +1,27 @@
+---
+title: Installing
+description: How to include Katalyst in your Roblox project
+---
+
+## Overview
+
+Katalyst is intentionally tiny. There are a few ways to include it in your project:
+
+1. Import the module into your `ReplicatedStorage` and `require` it.
+2. Add it as a module in your asset pipeline (Rojo / other bundlers) and require the module by path.
+
+Example (require local module):
+
+```lua
+-- In a ModuleScript named Katalyst
+local Katalyst = require(path.to.Katalyst)
+local New = Katalyst.New
+```
+
+Notes
+
+- The runtime is a single file and safe to vend into multiple projects.
+
+## Download
+- You can download the latest version of Katalyst from the [GitHub](https://github.com/miukyo/katalyst).
+- Or get it from Roblox Assets Store [here](https://create.roblox.com/store/asset/102585843889477/Katalyst).

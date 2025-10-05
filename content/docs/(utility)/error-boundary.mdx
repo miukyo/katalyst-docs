@@ -1,0 +1,36 @@
+---
+title: Error Boundary
+description: Catching component errors with a fallback
+---
+
+## Overview
+
+Use `Katalyst.ErrorBoundary(fallback)` to wrap components that might throw during creation. The returned wrapper returns the component's result or a fallback.
+
+### Basic usage (default fallback)
+
+If you call `Katalyst.ErrorBoundary()` without a fallback, it will render a default error UI (in Studio it includes the error message for easier debugging):
+
+```lua
+-- Basic usage - shows default error message
+local SafeComponent = Katalyst.ErrorBoundary()(BuggyComponent)
+```
+
+### Custom fallback UI
+
+Supply a fallback factory to customize the rendered UI. The fallback receives `(props, errorMessage)` and should return a Katalyst element.
+
+```lua
+-- Custom error UI
+local SafeComponent = Katalyst.ErrorBoundary(function(props, errorMsg)
+  return Katalyst.New("TextLabel")({
+    Text = "Error: " .. tostring(errorMsg),
+    TextColor3 = Color3.new(1, 0, 0),
+  })
+end)(BuggyComponent)
+```
+
+Notes
+
+- The fallback runs synchronously when the wrapped component errors during creation. Use the second parameter (error message) to show context.
+- The wrapped component is invoked with the same props you pass to the safe wrapper.

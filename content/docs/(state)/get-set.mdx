@@ -1,0 +1,21 @@
+---
+title: Get & Set
+description: Read and write Katalyst State
+---
+
+## Overview
+
+Create state using `Katalyst.State(initial)`. Read with `:get()` and write with `:set(value)`.
+
+```lua
+local State = Katalyst.State
+
+local s = State({ x = 1 })
+print(s:get().x)
+s:set({ x = 2 })
+```
+
+Notes
+
+- `:set()` schedules a batched notification via a small internal queue (so multiple sets in the same tick only fire subscribers once).
+- When setting tables, Katalyst performs a deep equality check to avoid unnecessary updates.

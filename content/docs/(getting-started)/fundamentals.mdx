@@ -1,0 +1,23 @@
+---
+title: Fundamentals
+description: Core architecture and concepts for Katalyst
+---
+
+## Overview
+
+Katalyst is built around three simple ideas:
+
+1. Proxy-wrapped Instances — each `New(className)` returns a proxy that forwards reads/writes to a real `Instance` while adding reactive wiring.
+2. Reactive State — a tiny `State` primitive with `get`, `set`, and `onChange` that batches updates.
+3. Declarative children — `Children` props accept arrays, nested fragments, functions, or State-backed arrays; Katalyst diffs and attaches/detaches Instances.
+
+### Architecture overview
+
+- `New` constructs a real `Instance` and returns a lightweight proxy with metamethods for property access, assignment, calling, and equality.
+- Property assignment accepts `State` objects and functions (computed props). `State` subscriptions update the underlying Instance when values change.
+- `Children` are handled by a small internal function that keeps a weak-keyed cache of attached children per parent and removes children that are no longer used.
+
+#### Why this design?
+
+- Minimalism: single-file runtime and a tiny API make the framework easy to audit and embed.
+- Interoperability: because Katalyst operates with real Instances, existing Roblox APIs (TweenService, etc.) continue to work seamlessly.

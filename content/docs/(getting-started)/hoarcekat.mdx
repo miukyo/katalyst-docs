@@ -1,0 +1,37 @@
+---
+title: Using with Hoarcekat
+description: How to preview Katalyst components with Hoarcekat
+---
+
+## Overview
+
+Katalyst works well with Hoarcekat for component previewing. Because Katalyst returns real Instances, you can return a Katalyst component from a story and set its `Parent` to the story's target.
+
+Example story:
+
+```lua
+-- story.lua
+local Katalyst = require("Katalyst")
+local New = Katalyst.New
+
+local label = New("TextLabel")({
+  Text = "Hello from Katalyst",
+})
+
+return function(target)
+  label.Parent = target
+end
+```
+
+Or return a factory:
+
+```lua
+return function(target)
+  local Label = New("TextLabel")({ Text = "Hello from Katalyst" })
+  Label.Parent = target
+end
+```
+
+Notes
+
+- Because the runtime uses real Instances, Hoarcekat's live previewing works without additional adapters.

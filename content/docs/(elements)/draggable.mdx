@@ -1,0 +1,81 @@
+---
+title: Draggable
+description: Built-in drag behavior for GuiObjects
+---
+
+## Overview
+
+Set `Draggable = true` on a GuiObject to enable built-in dragging. You can also provide `OnDragStart`, `OnDrag`, and `OnDragEnd` callbacks.
+
+Example
+
+```lua
+local New = Katalyst.New
+
+local win = New("Frame")({
+  Draggable = true,
+  OnDragEnd = function(self, pos)
+    print("dropped at", pos)
+  end,
+})
+```
+
+### Drag callbacks: signatures and behavior
+
+- `OnDragStart(self, startPos: UDim2, inputPos: Vector2)`
+  - Called once when the user begins dragging (mouse down or touch).
+  - `startPos` is the GuiObject's starting `Position` (UDim2) at drag start.
+  - `inputPos` is the input's position (Vector2) at the start.
+  - Use this to capture initial state or veto/prepare dragging.
+
+- `OnDrag(self, delta: Vector2, inputPos: Vector2)`
+  - Called continuously while dragging with the change in input since the last event.
+  - `delta` is the Vector2 difference from the previous input position.
+  - `inputPos` is the current input position.
+  - If `Draggable = true`, Katalyst will automatically update the GuiObject's `Position` based on the accumulated delta. You can use `OnDrag` to update other state (for example, a visual indicator) or to clamp/mutate the position further.
+
+- `OnDragEnd(self, inputPos: Vector2)`
+  - Called once when dragging ends (input ends).
+  - `inputPos` is the last input position.
+  - Use this to finalize state, persist the new position, or run cleanup/tweens.
+
+### Example: custom clamped drag
+
+```lua
+local New = Katalyst.New
+
+local win = New("Frame")({
+  Draggable = true,
+  OnDragStart = function(self, startPos, inputPos)
+    self.BackgroundColor3 = Color3.fromRGB(240,240,240)
+    self._startPos = startPos
+  end,
+  OnDrag = function(self, delta, inputPos)
+    -- clamp movement to keep the frame inside the screen bounds
+    local inst = self()
+    local newX = inst.Position.X.Offset + delta.x
+    local newY = inst.Position.Y.Offset + delta.y
+    -- naive clamp (example), adapt for Scale+Offset mixing
+    newX = math.clamp(newX, 0, 800)
+    newY = math.clamp(newY, 0, 600)
+    inst.Position = UDim2.new(inst.Position.X.Scale, newX, inst.Position.Y.Scale, newY)
+  end,
+  OnDragEnd = function(self, inputPos)
+    print("drag finished at", inputPos)
+    self.BackgroundColor3 = Color3.fromRGB(255,255,255)
+  end,
+})
+```
+
+Notes
+
+- The runtime uses `UserInputService.InputChanged` to track movement; drag events use the same input source to ensure smooth tracking across mouse and touch.
+- `OnDrag` delta values are relative between consecutive input events — accumulate or apply immediately depending on your use case.
+- If you need more advanced behavior (snapping, inertia), implement it in `OnDragEnd` or wrap the dragging logic in a small reusable component.
+
+- Important: event handlers still work when `Draggable` is false
+
+  - Katalyst wires `OnDragStart`, `OnDrag`, and `OnDragEnd` when those props are present even if `Draggable` is not `true`. That means your handlers will still be called if input begins and moves over the element.
+  - The `Draggable` prop controls whether Katalyst automatically updates the GuiObject's `Position` during dragging. If `Draggable` is `false`, Katalyst will not auto-move the instance — use the handlers to implement custom movement or constraints instead.
+  - In short: provide handlers without `Draggable` to implement fully custom drag logic; set `Draggable = true` if you want Katalyst to handle position changes for you.
+

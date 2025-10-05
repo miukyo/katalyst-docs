@@ -1,0 +1,31 @@
+---
+title: Reusable Component
+description: Creating reusable components with Katalyst
+---
+
+## Overview
+
+You can create small reusable components by writing functions that return Katalyst elements. Because `New` returns real Instances, the same usability rules apply as with direct Instances.
+
+Example
+
+```lua
+local New = Katalyst.New
+
+local function Badge(text)
+  return New("Frame")({
+    Children = {
+      New("TextLabel")({ Text = text }),
+    }
+  })
+end
+
+local badge = Badge("New")
+
+-- badge is a proxy; set parent like a normal Instance
+badge.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+```
+
+Notes
+
+- For components that need state, keep State objects inside the component function or accept them as props.

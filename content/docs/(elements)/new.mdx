@@ -1,0 +1,27 @@
+---
+title: New Element
+description: Creating elements with Katalyst.New
+---
+
+## Overview
+
+Use `Katalyst.New(className)` to create UI elements. It returns a constructor that accepts a props table and returns a proxy wrapping a real Instance.
+
+Example
+
+```lua
+local New = Katalyst.New
+local label = New("TextLabel")({
+  Text = "Hello",
+})
+
+-- or
+local label = New "TextLabel" {
+  Text = "Hello",
+}
+```
+
+Notes
+
+- The proxy is callable to get the raw Instance: `label()`.
+- Props that are `State` or functions are wired to update the Instance automatically.

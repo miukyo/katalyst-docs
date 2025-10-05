@@ -1,0 +1,24 @@
+---
+title: On Change
+description: Subscribing to state changes
+---
+
+## Overview
+
+Use `state:onChange(fn)` to subscribe to changes. The returned connection has a `Disconnect()` method.
+
+```lua
+local State = Katalyst.State
+
+local s = State(0)
+local conn = s:onChange(function(newVal)
+  print("new val", newVal)
+end)
+
+-- later
+conn:Disconnect()
+```
+
+Notes
+
+- Subscriptions are fired asynchronously (batched) via `task.defer`.

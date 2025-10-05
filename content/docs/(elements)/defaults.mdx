@@ -1,0 +1,38 @@
+---
+title: Defaults
+description: Default properties applied by Katalyst for common Gui classes
+---
+
+## Overview
+
+Katalyst applies a small set of defaults for common Gui classes to reduce boilerplate. The list below documents the notable defaults applied by the runtime.
+
+TextLabel / TextButton / TextBox
+
+- `Font = Enum.Font.SourceSans`
+- `Text = ""`
+- `TextColor3 = Color3.new(0,0,0)`
+- `TextSize = 14`
+- `BackgroundColor3 = Color3.new(1,1,1)`
+- `BorderColor3 = Color3.new(0,0,0)`
+- `BorderSizePixel = 0`
+
+Frame / ImageLabel / ImageButton / ViewportFrame / VideoFrame / CanvasGroup
+
+- `BackgroundColor3 = Color3.new(1,1,1)`
+- `BorderColor3 = Color3.new(0,0,0)`
+- `BorderSizePixel = 0`
+
+ScreenGui / BillboardGui / SurfaceGui
+
+- `ResetOnSpawn = false`
+- `ZIndexBehavior = Enum.ZIndexBehavior.Sibling`
+
+SurfaceGui specific
+
+- `SizingMode = Enum.SurfaceGuiSizingMode.PixelsPerStud`
+- `PixelsPerStud = 50`
+
+Notes
+
+- These defaults are defined in the runtime file and can be edited if you vendor the runtime into your project.

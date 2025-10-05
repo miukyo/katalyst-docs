@@ -1,0 +1,30 @@
+---
+title: Map
+description: Map helper for lists
+---
+
+## Overview
+
+`Katalyst.Map(array, render)` maps a Lua array to Instances and sets `LayoutOrder` on GuiObjects.
+
+Example
+
+```lua
+local Map = Katalyst.Map
+local New = Katalyst.New
+
+local items = {"One","Two","Three"}
+
+local list = New("Frame")({
+  Children = {
+    New("UIListLayout")({}),
+    Map(items, function(item,i)
+      return New("TextLabel")({ Text = i..". "..item })
+    end),
+  }
+})
+```
+
+Notes
+
+- Map is not keyed — if you need stable identity across reorderings implement a small keyed wrapper or manage Instances yourself.

@@ -1,0 +1,31 @@
+---
+title: Children
+description: Declarative children handling
+---
+
+## Overview
+
+`Children` accepts arrays, nested arrays (fragments), functions (computed children), and `State` that resolves to an array. Katalyst diffs children and attaches/detaches Instances efficiently.
+
+Example
+
+```lua
+local New = Katalyst.New
+local Map = Katalyst.Map
+
+local items = {"A","B","C"}
+
+local list = New("Frame")({
+  Children = {
+    New("UIListLayout")({}),
+    Map(items, function(item,i)
+      return New("TextLabel")({ Text = i..". "..item })
+    end),
+  }
+})
+```
+
+Notes
+
+- Katalyst sets `LayoutOrder` automatically for GuiObjects when attaching.
+- When a parent is destroyed, the weak-keyed cache is cleaned up.

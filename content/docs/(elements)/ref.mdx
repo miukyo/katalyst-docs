@@ -1,0 +1,23 @@
+---
+title: Ref
+description: Ref callbacks and lifecycle
+---
+
+## Overview
+
+The `Ref` prop receives the proxy when an element is created. It can return an optional cleanup function which will be invoked when the Instance is destroyed.
+
+Example
+
+```lua
+local New = Katalyst.New
+
+local box = New("TextBox")({
+  Ref = function(self)
+    self.Text = "Hello"
+    return function()
+      print("cleanup")
+    end
+  end,
+})
+```

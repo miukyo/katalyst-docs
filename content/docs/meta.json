@@ -1,0 +1,15 @@
+{
+  "title": "Katalyst Docs",
+  "description": "Documentation for Katalyst, A simple & small Roblox GUI framework.",
+  "icon": "Building",
+  "pages": [
+    "---Getting Started---",
+    "...(getting-started)",
+    "---Elements---",
+    "...(elements)",
+    "---State---",
+    "...(state)",
+    "---Utility---",
+    "...(utility)"
+  ]
+}

@@ -1,9 +1,16 @@
-@import 'tailwindcss';
-@import 'fumadocs-ui/css/neutral.css';
-@import 'fumadocs-ui/css/preset.css';
+@import "tailwindcss";
+@import "fumadocs-ui/css/black.css";
+@import "fumadocs-ui/css/preset.css";
 
 body {
+  font-family: "Space Grotesk Variable", sans-serif;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+#nd-nav {
+  background-color: transparent;
+  border: 0;
+  backdrop-filter: none;
 }

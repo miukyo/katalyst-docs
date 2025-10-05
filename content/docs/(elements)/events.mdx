@@ -1,0 +1,66 @@
+---
+title: Events
+description: Wiring events to elements
+---
+
+## Overview
+
+Katalyst maps props that start with `On` to Roblox events and calls your handler with the proxy as the first argument.
+
+Example
+
+```lua
+local New = Katalyst.New
+
+local btn = New("TextButton")({
+  Text = "Click me",
+  OnActivated = function(self)
+    self.Text = "Clicked"
+  end,
+})
+
+-- use raw instance
+btn.OnEnter = function(self)
+  local inst = self()
+  inst.BackgroundTransparency = 0.5
+end
+```
+
+### Possible events
+
+Below is a non-exhaustive mapping of common Katalyst `On*` prop names to Roblox events. When you set these props on a Katalyst element, the runtime connects the corresponding Roblox event and calls your handler with the proxy as the first argument.
+
+- OnActivated → Activated (GuiButton)
+- OnDown → MouseButton1Down (GuiButton)
+- OnUp → MouseButton1Up (GuiButton)
+- OnEnter → MouseEnter (GuiObject)
+- OnLeave → MouseLeave (GuiObject)
+
+Notes
+
+- Katalyst wires common event names that start with `On`. If you need to connect to a Roblox event not listed here, you can get the raw Instance using `proxy()` and connect manually *(see the example below)*.
+- Event handlers receive the proxy as the first argument. Use `self()` to access the raw Instance when needed.
+- Avoid heavy work directly in event handlers; debounce or yield when necessary.
+
+### Connecting events in `Ref`
+
+You can also connect directly to Roblox events inside the `Ref` callback — this is useful when you need access to the raw Instance for advanced event handling or when you want to return a cleanup function that disconnects the events automatically.
+
+Example:
+
+```lua
+local New = Katalyst.New
+
+local button = New("TextBox")({
+  Ref = function(self)
+    local conn = self.Changed:Connect(function()
+      print(self.Text)
+    end)
+
+    -- return cleanup to disconnect when the Instance is destroyed
+    return function()
+      conn:Disconnect()
+    end
+  end,
+})
+```

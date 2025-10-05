@@ -1,0 +1,30 @@
+---
+title: Using with Elements
+description: How to bind State to element props and computed props
+---
+
+## Overview
+
+Bind state directly to props by passing the `State` object or using computed functions that read `:get()`.
+
+```lua
+local State = Katalyst.State
+local New = Katalyst.New
+
+local count = State(0)
+
+local label = New("TextLabel")({
+  Text = function()
+    return "Count: " .. count:get()
+  end,
+})
+
+-- or bind the State directly
+local label2 = New("TextLabel")({
+  Text = count,
+})
+```
+
+Notes
+
+- When passing a `State` directly, the instance property is set to the state's current value and will update as the state changes.

@@ -1,0 +1,57 @@
+---
+title: Fragment
+description: Returning multiple children
+---
+
+## Overview
+
+`Katalyst.Fragment(fn)` returns an array of Instances produced by `fn`. Useful for components that return multiple top-level children.
+
+Example
+
+```lua
+local Fragment = Katalyst.Fragment
+
+local comp = function()
+  return Fragment(function()
+    return {
+      Katalyst.New("TextLabel")({ Text = "A" }),
+      Katalyst.New("TextLabel")({ Text = "B" }),
+    }
+  end)
+end
+```
+
+### Using Fragment in practice
+
+Fragments are useful when you want a component to return multiple top-level children. For example, you can compose a header, divider, and content as a single fragment and insert that into a parent's `Children` list:
+
+```lua
+local myFragment = Katalyst.Fragment(function()
+  return {
+    Katalyst.New("TextLabel")({
+      Text = "Header",
+      Size = UDim2.new(1, 0, 0, 30),
+    }),
+    Katalyst.New("Frame")({
+      Size = UDim2.new(1, 0, 0, 2),
+      BackgroundColor3 = Color3.new(0.5, 0.5, 0.5),
+    }),
+    Katalyst.New("TextLabel")({
+      Text = "Content",
+      Size = UDim2.new(1, 0, 1, -32),
+    }),
+  }
+end)
+
+local parent = Katalyst.New("Frame")({
+  Children = {
+    myFragment,
+  }
+})
+```
+
+Notes
+
+- Fragments are simply arrays of Instances (or functions that resolve to Instances). They let you return multiple siblings from a single component function without introducing an extra wrapper instance.
+- If you need identity tracking across list updates, handle Instance creation manually or use a keying strategy — fragments do not provide built-in keying.
